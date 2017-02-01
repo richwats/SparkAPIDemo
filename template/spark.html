@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Spark Authorization{% endblock %}
+
+{% block content %}
+<div class="container">
+<p>Clicking the link below will redirect to the Spark authentication and authorization service to allow the user access to this Integration and the Integration to act on the users behalf.</p>
+
+<a class="btn btn-primary" href="https://api.ciscospark.com/v1/authorize?client_id=C88d6dfbb9a503d291b035cf7fcfd34cf5ab5266fc072e6b2724b692c5f05e21c&response_type=code&redirect_uri=http%3A%2F%2Foversight.myqnapcloud.com%3A9090%2Fspark_auth%2F&scope=spark%3Arooms_read%20spark%3Ateams_read%20spark%3Amessages_read%20spark-admin%3Aroles_read%20spark%3Arooms_write%20spark-admin%3Aorganizations_read%20spark%3Ateams_write%20spark%3Ateam_memberships_read%20spark%3Ateam_memberships_write%20spark%3Amessages_write%20spark%3Amemberships_read%20spark%3Apeople_read%20spark-admin%3Apeople_write%20spark%3Akms%20spark-admin%3Apeople_read%20spark%3Amemberships_write%20spark-admin%3Alicenses_read&state=sent">
+Request Authorization   
+</a>
+
+</div>
+
+{{super()}}
+{% endblock %}

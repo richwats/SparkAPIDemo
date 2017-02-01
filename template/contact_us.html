@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<div class="container">
+
+{{ wtf.quick_form(contactForm) }}
+
+</div>
+{{super()}}
+{% endblock %}

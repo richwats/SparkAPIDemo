@@ -1,0 +1,27 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{# Chat Login Successfull #}
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Chat Login</h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success">Login Succesful - Opening Chat Window</div>
+      </div>
+      <div class="modal-footer">
+      </div>
+      
+      <script>        
+        setTimeout(function(){
+          // Close Modal
+          $('#chatModal').modal('hide')
+          
+         setTimeout(function(){
+            // Re-Open Chat Window
+            $('#chatModal').modal('show')
+            }, 1000)
+    
+        }, 2000)
+      </script>

@@ -1,0 +1,31 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{# Chat Login Form #}
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Chat Login</h4>
+      </div>
+      <div class="modal-body">
+        {{ wtf.quick_form(ChatLogin, id="chatLoginForm", action="/loadModal/chatModal/", extra_classes="ajaxForm") }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" form="chatLoginForm" class="btn btn-primary">Login</button>
+      </div>
+      
+      <script>
+        $('#chatLoginForm').ajaxForm({
+          dataType:  'html',
+          success: function(data){
+            if (debug) {
+                console.log('[chatLogin] Data Received:')
+                //console.log(data)
+            }
+            
+            $('#chatModalContent').empty().html(data)
+            //alert(data)
+          }
+          })
+      </script>

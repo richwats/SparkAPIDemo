@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Register Webhook{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3>Existing Webhooks</h3>
+    <table class="table table-hover">
+        <tr>
+            <th>Webhook Name</th>
+            <th>Created On</th>
+        </tr>
+    {% for item in webhooks['json']['items'] %}
+        <tr data-id="{{item.id|escape}}" data-name="{{item.name|escape}}" class="teamSelectRow selectRow {% if item['name'] == selectedTeamName %}success{% endif %}">
+            <td>{{item['name']|escape}}</td>
+            <td>{{item['created']|escape}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <h3>Register New Webhook</h3>
+    {{ wtf.quick_form(newWebhookForm) }}
+</div>
+{{super()}}
+{% endblock %}

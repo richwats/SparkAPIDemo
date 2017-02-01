@@ -1,0 +1,16 @@
+{# AJAX Loading Modal #}
+<div class="modal fade" id="ajaxLoadingModal" style="z-index: 1150" tabindex="-2">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 194px; height: 102px;">
+            <img src="{{url_for('static', filename='images/ccw_preloader.gif')}}"/>
+        </div>
+    </div>
+</div>
+
+{# Chat Modal #}
+<div class="modal fade" id="chatModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"id="chatModalContent">
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

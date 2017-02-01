@@ -1,0 +1,26 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{# Chat Window #}
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Chat Window</h4>
+        </div>
+        <div class="modal-body" style="height: 300px; overflow-y: auto;">
+          <ul id="messages">
+          </ul>
+        </div>
+        <div class="modal-body" >
+          <form id="sendMessageForm" disabled class="form">
+            <div class="form-group">
+              <label for="msgText">Message</label>
+              <textarea class="form-control" rows=3 id="msgText" placeholder="please type your message"></textarea>
+            </div>
+          </form>
+          <button class="btn btn-primary btn-block" onclick="sendMessage()">Send</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" onclick="clearSession()">Clear Session</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>

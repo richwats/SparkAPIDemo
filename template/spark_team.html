@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Select Spark Team{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3>Select Spark Team</h3>
+    <div class="alert alert-info">Please select the Cisco Spark Team to add new Spaces to.</div>
+    <table class="table table-hover">
+        <tr>
+            <th>Selected</th>
+            <th>Team Name</th>
+            <th>Created On</th>
+        </tr>
+    {% for item in teamList['json']['items'] %}
+        <tr data-id="{{item.id|escape}}" data-name="{{item.name|escape}}" class="teamSelectRow selectRow {% if item['name'] == selectedTeamName %}success{% endif %}">
+            <td>{% if item['name'] == selectedTeamName %}<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>{% endif %}</td>
+            <td>{{item['name']|escape}}</td>
+            <td>{{item['created']|escape}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <h3>Create New Spark Team</h3>
+    {{ wtf.quick_form(newTeamForm) }}
+</div>
+{{super()}}
+{% endblock %}
+
+
+{% block scripts %}
+{{super()}}
+
+<script>
+    $('.teamSelectRow').click(function(){
+        if (debug) {
+            console.log('[teamSelectRow] Selected Row: '+$(this).data('id'))
+        }
+        
+        var data = {
+            'call': 'selectTeam',
+            'teamName': $(this).data('name'),
+            'teamId': $(this).data('id')
+        }
+        
+        // Call Initial Ajax Function
+        $.post('/ajax', data, reloadWindow )
+        
+        })
+</script>
+
+{% endblock %}

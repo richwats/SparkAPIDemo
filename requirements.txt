@@ -1,0 +1,15 @@
+flask
+#flask_debugtoolbar
+#flask-login
+#flask-kvsession
+flask-bootstrap
+flask-nav
+flask-wtf
+## Socket-IO ##
+flask-socketio
+eventlet
+## Rest API Client ##
+requests
+requests_oauthlib # not needed?
+furl
+CiscoSparkAPI

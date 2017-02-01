@@ -1,0 +1,58 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block head %}
+{{super()}}
+<meta name="csrf-token" content="{{ csrf_token() }}">
+{% endblock %}
+
+{% block navbar %}
+{{nav.main_top.render()}}
+
+{{utils.flashed_messages(messages=None, container=True, default_category=None, dismissible=True)}}
+
+{% endblock %}
+
+{% block content %}
+<!-- Bottom Navbar -->
+<footer>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container-fluid">
+        <button type="button" class="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#chatModal" style="margin-right: 20px">Click to Chat</button>
+      </div>
+    </nav>
+</footer>
+<!-- Chat Bar -->
+{% include "chat.html" %}
+<!-- Modals -->
+{% include "modal.html" %}
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<!--<script src="{{url_for('static', filename='js/dropdowns-enhancement.js')}}"></script>-->
+<script src="{{url_for('static', filename='js/jquery.form.min.js')}}"></script>
+<!--<script src="{{url_for('static', filename='js/bootbox.min.js')}}"></script>-->
+<!--<script src="{{url_for('static', filename='js/jquery.bootstrap-duallistbox.js')}}"></script>-->
+<!--<script src="{{url_for('static', filename='js/select2.full.js')}}"></script>-->
+<!--<script src="{{url_for('static', filename='js/jquery.filer.js')}}"></script>-->
+<script src="{{url_for('static', filename='js/socket.io.js')}}"></script>
+<script src="{{url_for('static', filename='js/chat.js')}}"></script>
+<script src="{{url_for('static', filename='js/custom.js')}}"></script>
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<!--<link rel="stylesheet" href="{{url_for('static', filename='css/dropdowns-enhancement.min.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/dropdowns-scroll-menu.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/tab-panels.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-duallistbox.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/select2.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/select2-bootstrap.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/jquery.filer.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/themes/jquery.filer-dragdropbox-theme.css')}}">-->
+<link rel="stylesheet" href="{{url_for('static', filename='css/chat.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/custom.css')}}">
+{% endblock %}

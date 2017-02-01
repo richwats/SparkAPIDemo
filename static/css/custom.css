@@ -1,0 +1,14 @@
+/* Fixed Bottom Navbar */
+
+body {
+    padding-bottom: 70px;
+    }
+    
+
+.selectRow {
+    cursor: pointer;
+}
+
+.selectRow td {
+    cursor: pointer;
+}

@@ -1,0 +1,94 @@
+### SPARK/TROPO API DEMO WEB SITE ###
+
+BUILD COMMAND
+docker build SparkAPI -t sparkweb
+
+TEST COMMAND
+docker run -d -P --name SparkWeb -v ~/Documents/dev/SparkAPI/WebApp:/app sparkweb
+#python3 app.py
+
+- Basic Fake Company Website
+
+- Contact Us Form
+    -> Form is converted to Spark Message and sent to specific Room?
+            - or new Room per Contact Message
+                - Room added to Team
+                - ID based on customer email?
+                
+
+- Live Chat
+    -> Pop-up to chat?
+        -> Chat in/out of Spark Room
+            - 1:1 Room or New Team Room?
+        
+    -> WebSocket ??
+    -> Public Library??
+    
+- Stretch
+    -> WebRTC to Video Chat?
+    
+
+
+
+ISSUES
+- Bot vs Integration
+    - 1:1 Bot is ok - will receive all messages..
+    - >1 Room - Bot can't see messages unless mentioned...
+    - Preference is Integration
+        - Integration requires OAUTH2 impersonation...
+        - using oversight.myqnapcloud.com  port 9090 - back to laptop on 192.168.1.30:9090
+        
+        
+- Have Auth Code - Now What
+
+    - Admin/Create/Set Team
+    
+    - Contact Form
+        - Create Room in Team based on Submitted Email Address..
+        - Tropo?
+            - Existing Tropo/Spark Bridge?
+        - Create Message in Room
+            - Confirmation to Flash
+    
+    - Chat
+        - Create Room in Team based on Submitted Email - same as Form?
+        - Load X Messages from Room
+        - Create Message in Room on Send...
+        - WebHook to monitor new messages.
+
+
+
+1/2/17
+    - Login Forms
+        - Add Title / Select
+        
+    - Socket.IO
+        - Use Rooms to isolate individual chats...
+        
+    - Chat
+        - Modify display
+            - Direction sent vs received
+            - Get Person Avatar / Details
+        - Show Connected Status
+            - Disable Form on Disconnected
+        - Load X Previous Messages?
+            - Optional?
+            - Filter out Form Posts?
+        - Post Connect Status to Spark Room
+            - DONE
+        
+    - Bootstrap
+        - Beautify Fake Website...
+        
+    
+    - Tropo API
+        - Spark Room Chat-to-SMS via Integration/Webhook
+        - On Form Submission
+            - If Mobile...
+                - Send SMS to confirm chat receipt
+                - Open/Register SMS to Chat Room through Tropo?
+                    - How to link Tropo SMS to Room
+                        - Per number?
+                
+    
+    

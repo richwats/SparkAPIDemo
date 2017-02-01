@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Register User{% endblock %}
+
+{% block content %}
+<div class="container">
+
+{{ wtf.quick_form(registerForm) }}
+
+</div>
+{{super()}}
+{% endblock %}
