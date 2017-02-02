@@ -42,6 +42,10 @@ import configparser
 ## Spark ARI ##
 from spark import SparkAPI, SparkMessage
 
+### OS ##
+import os
+
+
 """
 FLASK APP CONFIG
 """
@@ -58,8 +62,12 @@ app.config['BOOTSTRAP_QUERYSTRING_REVVING'] = False
 Bootstrap(app)
 
 ## Flask WTF / CSRF ##
-app.config['SECRET_KEY'] = '12903iawdflahslfsdlf'
-csrf = CSRFProtect(app)
+try:
+    app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
+    csrf = CSRFProtect(app)
+except Exception as e:
+    app.logger.error('[app] Initialisation Error: %s' % str(e))
+    exit
 
 ## Flask Nav ##
 nav.init_app(app)

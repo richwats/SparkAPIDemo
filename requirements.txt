@@ -10,6 +10,6 @@ flask-socketio
 eventlet
 ## Rest API Client ##
 requests
-requests_oauthlib # not needed?
+#requests_oauthlib # not needed?
 furl
-CiscoSparkAPI
+#CiscoSparkAPI

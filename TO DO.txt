@@ -4,7 +4,10 @@ BUILD COMMAND
 docker build SparkAPI -t sparkweb
 
 TEST COMMAND
-docker run -d -P --name SparkWeb -v ~/Documents/dev/SparkAPI/WebApp:/app sparkweb
+#docker run -d -P --name SparkWeb -v ~/Documents/dev/SparkAPI/WebApp:/app sparkweb
+
+docker run -d -P --name SparkWeb -v ~/Documents/dev/SparkAPI/WebApp:/app --env-file ~/Documents/dev/SparkAPI/env.txt sparkweb 
+
 #python3 app.py
 
 - Basic Fake Company Website

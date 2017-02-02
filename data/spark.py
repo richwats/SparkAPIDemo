@@ -1,12 +1,13 @@
 ## Spark Class Object ##
 import requests
-from oauthlib.oauth2 import WebApplicationClient
-from requests_oauthlib import OAuth2Session
+# from oauthlib.oauth2 import WebApplicationClient
+# from requests_oauthlib import OAuth2Session
 from furl import furl
 from collections import OrderedDict
 import json
 import urllib
 import configparser
+import os
 
 
 class SparkMessage(object):
@@ -57,22 +58,47 @@ class SparkAPI(object):
     teamId = None
     teamName = None
     
-    webhookName = "SparChatDemo-Messages"
+    webhookName = None
 
-    _client_id = "C88d6dfbb9a503d291b035cf7fcfd34cf5ab5266fc072e6b2724b692c5f05e21c"
-    _client_secret = "5433e110aeaa07ab9651a919b6a156ca53c0a6bc36b04f226e52f283ad305ea7"
-    _redirectURI = "http://oversight.myqnapcloud.com:9090/spark_auth/"
-
-    _webhookTargetURL = "http://oversight.myqnapcloud.com:9090/webhook/"
+    _client_id = None 
+    _client_secret = None 
     
-    sparkVersion = "v1"
-    sparkBaseURL = "https://api.ciscospark.com/%s/ " % str(sparkVersion)
+    _redirectURI = None
+    _webhookTargetURL = None
+    
+    sparkVersion = None
+    _sparkUrl = None
+    sparkBaseURL = "%s%s/ " % (str(_sparkUrl),str(sparkVersion))
         
     ## Functions ##
     def __init__(self, logger):
         ## Set Logger ##
         self.logger = logger
         self.logger.info('[SparkAPI] Initialising SparkAPI Object')
+        
+        ## Load Environmental Variables ##
+        try:
+            self.webhookName = os.environ.get('WEBHOOK_NAME')
+            self._client_id = os.environ.get('SPARK_INT_ID')
+            self._client_id = os.environ.get('SPARK_INT_ID')
+            self._client_secret = os.environ.get('SPARK_INT_SECRET')
+            self._redirectURI = os.environ.get('SPARK_INT_REDIRECT_URI')
+            self._webhookTargetURL = os.environ.get('WEBHOOK_URL')
+            self.sparkVersion = os.environ.get('SPARK_API_VERSION')
+            self._sparkUrl = os.environ.get('SPARK_API_URL')
+        except Exception as e:
+            self.logger.error('[SparkAPI] Initialisation Error: %s' % str(e))
+            return
+        
+        """
+        ENV WEBHOOK_NAME=SparkChatDemo-Messages
+        ENV WEBHOOK_URL=
+        ENV SPARK_API_VERSION=V1
+        ENV SPARK_API_URL=https://api.ciscospark.com
+        ENV SPARK_INT_ID=
+        ENV SPARK_INT_SECRET=
+        ENV SPARK_INT_REDIRECT_URI=
+        """
         
         ## Load Config ##
         self.config = configparser.ConfigParser()
@@ -150,40 +176,7 @@ class SparkAPI(object):
         jsonObj = json.loads(r.text,object_pairs_hook=OrderedDict)
         
         return jsonObj
-        
-        #test = self.authClient.prepare_request_uri(str(queryURL))
-        #self.logger.debug('[SparkAPI] Auth Client URI: %s' % str(test))
-        #test = self.authClient.prepare_request_body(code=self.authCode, redirect_uri= self._redirectURI, client_secret= self._client_secret)
-        #self.logger.debug('[SparkAPI] Auth Client Body: %s' % str(test))
-        #test = self.authClient.prepare_token_request(str(queryURL),redirect_url = self._redirectURI)
-        #self.logger.debug('[SparkAPI] Auth Token Request: %s' % str(test))
-        
-        #self.logger.debug(dir(self.authClient))
-        #self.logger.debug(str(self.authClient.token))
-        #scope = [str(queryURL)]
-        #oauth = OAuth2Session(client_id = self._client_id, scope=scope, redirect_uri = self._redirectURI)
-        
-        #self.logger.debug(help(oauth))
-        
-        # self.accessToken = oauth.fetch_token(str(queryURL),
-        #                                      code=self.authCode,
-        #                                      authorization_response = self._redirectURI,
-        #                                      #redirect_uri= self._redirectURI,
-        #                                      client_secret= self._client_secret,
-        #                                      )
-        #                                      #grant_type= "authorization_code",)
-        
-        # payload = {'grant_type':'authorization_code',
-        #            'redirect_uri': self._redirectURI,
-        #            'code': self.authCode,
-        #            'client_id': self._client_id,
-        #            'client_secret': self._client_secret
-        #            }
-        #     
-        # self.accessToken = self.queryURL(method="POST", path="access_token")
-        #self.logger.info('[SparkAPI] Access Token: %s' % str(self.accessToken))
-        #return
-    
+            
     def queryURL(self, url = None, method = "GET", payload = None, path = None, args = None):
         ## Build Resource List ##
         # try:
