@@ -108,7 +108,17 @@ function buildMessage(msgObj,idx) {
     
     var $avaColDiv = $('<div>').addClass("col-md-2 col-xs-2 avatar")
     // Get Personal Avatar
-    var $avaImg = $('<img>').attr('src','http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg').addClass('img-responsive').appendTo($avaColDiv)
+    
+    if (msgObj.avatar != null) {
+        imgSrc = msgObj.avatar
+    }
+    else {
+        imgSrc = 'http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg'
+    }
+    
+    console.log('Avatar Link:'+msgObj.avatar)
+    
+    var $avaImg = $('<img>').attr('src',imgSrc).addClass('img-responsive').appendTo($avaColDiv)
     
     // Apply Directional Classes
     if (msgObj.direction == "sent") {
@@ -134,6 +144,7 @@ function displayMessages() {
     console.log('[socket.io] Displaying Messages')
     //$('#messages').empty()
     for (idx in messages){
+        //console.log('[socket.io] Checking Idx:'+idx)
         var match = false
         //$('li').each(function(){
         $('.msg_container').each(function(){
@@ -142,11 +153,13 @@ function displayMessages() {
             }
         })
         if (match == true) {
+            idx++
             continue
         }
 
         //Adding New Entry
-        console.log('[socket.io] Adding New Message')
+        console.log('[socket.io] Adding New Message Idx:'+idx)
+        
         //var $msg = $('<li>').attr('data-idx',idx).text(messages[idx].text)
         var msgObj = messages[idx]
         var $msg = buildMessage(msgObj,idx)
@@ -172,7 +185,7 @@ function openChatWS() {
     socket.on('message', function(msg){
         console.log('[socket.io] Message: '+msg)
         //$('#messages').append($('<li>').text(msg));
-        messages.push({'direction':'received','text':msg.text})
+        messages.push({'direction':'received','text':msg.text, 'avatar':msg.avatar})
         console.log(messages)
         displayMessages()
     });

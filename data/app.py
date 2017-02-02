@@ -129,7 +129,15 @@ def web_hook():
         app.logger.debug('[app.webhook] Filtering Message: %s' % str(response['json']['text']) )
         return jsonify({'results': False })
     
-    message = {'text': '(%s) %s' % (str(response['json']['personEmail']),str(response['json']['text'])) }
+    ## Load Senders Details ##
+    personId = response['json']['personId']
+    peopleObj = sparkAPI.getPeopleDetails(personId)
+    
+    
+    message = {
+        'text': '(%s) %s' % (str(response['json']['personEmail']),str(response['json']['text'])),
+        'avatar': str(peopleObj['json']['avatar'])
+        }
 
     #response = {'text':'Message Received from Spark.'}
     socketio.emit('message', message, namespace = "/sparkchat")

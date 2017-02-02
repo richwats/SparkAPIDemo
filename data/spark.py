@@ -288,11 +288,17 @@ class SparkAPI(object):
     
         return {'json': {'teamName': teamName }}
     
+    ### PEOPLE ###
+    
+    def getPeopleDetails(self, personId ):
+        ## Get Person Details from Spark ##
+        self.logger.info('[SparkAPI.getPersonDetails] Get Person Id: %s' % str(personId))
+        response = self.queryURL(method="GET", path=['people',str(personId)])
+        self.logger.debug('[SparkAPI.getPersonDetails] Response: %s' % str(response))
+        return response
     
     ### ROOMS/SPACES ###
-    
-    
-    
+
     def buildSpaceName(self, email):
         ## Build Space Name from Email ##
         return "Customer: %s" % str(email)
