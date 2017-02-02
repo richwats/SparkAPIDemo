@@ -316,18 +316,23 @@ def contact_us():
             
             ### Details
             
+            *++Name:++%s++%s++%s
             *++Email++Address:++%s
-            *++First++Name:++%s
-            *++Last++Name:++%s
             *++Mobile:++%s
             
             ### Message
             
             ------
             
-            %s''' % (contactForm.email.data, contactForm.firstname.data, contactForm.lastname.data, contactForm.mobile.data, contactForm.message.data)
+            ''' % (contactForm.title.data,
+                   str(contactForm.firstname.data).capitalize(),
+                   str(contactForm.lastname.data).capitalize(),
+                   contactForm.email.data,
+                   contactForm.mobile.data
+                   )
             ### Spark Markdown doesn't like whitespace.. ###
             msg.markdown = str(markdown).replace(" ","").replace("++"," ")
+            msg.markdown = "%s%s" % (str(msg.markdown),str(contactForm.message.data))
             response = sparkAPI.sendMessage(msg)
             app.logger.debug('[app.contact_us] Message Response: %s' % str(response))
             
@@ -366,8 +371,9 @@ def loadModal(modalName, formName = None):
                     ## Form Validates ##
                     if formName == "ChatLogin":
                         app.logger.debug('[app.loadModal] Validated Form Data: %s' % str(formInstance.data))
-                        session['firstName'] = formInstance.firstname.data  # lowercase
-                        session['lastName'] = formInstance.lastname.data # lowercase
+                        session['title'] = formInstance.title.data
+                        session['firstName'] = str(formInstance.firstname.data).capitalize()  # lowercase
+                        session['lastName'] = str(formInstance.lastname.data).capitalize() # lowercase
                         session['email'] = formInstance.email.data
                         session['mobile'] = formInstance.mobile.data
                     

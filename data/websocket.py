@@ -32,7 +32,7 @@ class SparkChatNamespace(Namespace):
             ## Send Connect Message to Room ##
             msg = SparkMessage()
             msg.roomId = self.sparkSpace['id']
-            msg.markdown = "#####Web Chat - %s %s %s %s Connected" % (session['firstName'],session['lastName'],session['email'],session['mobile'])
+            msg.markdown = "#####Web Chat - %s %s %s %s %s Connected" % (session['title'], session['firstName'],session['lastName'],session['email'],session['mobile'])
             response = self.sparkAPI.sendMessage(msg)
             current_app.logger.debug('[SparkChatNamespace.message] Message Response: %s' % str(response))
             
@@ -47,9 +47,12 @@ class SparkChatNamespace(Namespace):
         ## Send Connect Message to Room ##
         msg = SparkMessage()
         msg.roomId = self.sparkSpace['id']
-        msg.markdown = "#####Web Chat - %s %s %s %s Disconnected" % (session['firstName'],session['lastName'],session['email'],session['mobile'])
-        response = self.sparkAPI.sendMessage(msg)
-        current_app.logger.debug('[SparkChatNamespace.disconnect] Message Response: %s' % str(response))
+        if 'email' in session.keys():
+            msg.markdown = "#####Web Chat - %s %s %s %s %s Disconnected" % (session['title'], session['firstName'],session['lastName'],session['email'],session['mobile'])
+            response = self.sparkAPI.sendMessage(msg)
+            current_app.logger.debug('[SparkChatNamespace.disconnect] Message Response: %s' % str(response))
+        else:
+            current_app.logger.debug('[SparkChatNamespace.disconnect] No Session Data')
         
         return
         
@@ -63,7 +66,7 @@ class SparkChatNamespace(Namespace):
         
         ## Replace newline with double newline ##
         data = str(data).replace("\n","\n\n")
-        msg.markdown = "#####Web Chat from %s  %s %s %s\n------\n\n%s" % (session['firstName'],session['lastName'],session['email'],session['mobile'],str(data))
+        msg.markdown = "#####Web Chat from %s %s %s %s %s\n------\n\n%s" % (session['title'], session['firstName'],session['lastName'],session['email'],session['mobile'],str(data))
         ### Spark Markdown doesn't like whitespace.. ###
         #msg.markdown = str(markdown).replace(" ","").replace("++"," ")
         

@@ -8,6 +8,18 @@ from wtforms.validators import InputRequired, EqualTo, Optional, Email, Length, 
 
 class ContactUs(FlaskForm):
     
+    title = SelectField('Title',
+                        description="Please select your title",
+                        validators=[InputRequired()],
+                        choices = [
+                            ('Mr','Mr'),
+                            ('Mrs','Mrs'),
+                            ('Ms','Ms'),
+                            ('Miss','Miss'),
+                        ],
+                        default='Mr'
+                        )
+    
     firstname = StringField('First Name',
                            description="Please enter your last name",
                            validators=[InputRequired()],
@@ -32,7 +44,7 @@ class ContactUs(FlaskForm):
                            )
     message = TextAreaField('Message',
                             description="How can we help?",
-                            render_kw = {'rows':10}
+                            render_kw = {'rows':5}
                             )
     
     submit = SubmitField('Submit Message')
@@ -68,6 +80,18 @@ class ContactUs(FlaskForm):
 class ChatLogin(FlaskForm):
     
     call = HiddenField('call')
+    
+    title = SelectField('Title',
+                        description="Please select your title",
+                        validators=[InputRequired()],
+                        choices = [
+                            ('Mr','Mr'),
+                            ('Mrs','Mrs'),
+                            ('Ms','Ms'),
+                            ('Miss','Miss'),
+                        ],
+                        default = 'Mr'
+                        )
     
     firstname = StringField('First Name',
                            description="Please enter your last name",

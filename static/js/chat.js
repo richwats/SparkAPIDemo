@@ -82,7 +82,52 @@ $(document).on('focus', '.panel-footer input.chat_input', function (e) {
 //});
 
 
+function buildMessage(msgObj,idx) {
+    //Build HTML for Message
 
+    /*
+     <div class="row msg_container base_sent">
+        <div class="col-md-10 col-xs-10">
+            <div class="messages msg_sent">
+                <p>that mongodb thing looks good, huh?
+                tiny master db, and huge document store</p>
+                <time datetime="2009-11-13T20:00">Timothy 51 min</time>
+            </div>
+        </div>
+        <div class="col-md-2 col-xs-2 avatar">
+            <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">
+        </div>
+    </div>
+    */
+    
+    var $rowDiv = $('<div>').addClass('row msg_container').data('idx',idx)
+    var $msgColDiv = $('<div>').addClass('col-md-10 col-xs-10')
+    var $msgDiv = $('<div>').addClass('messages').appendTo($msgColDiv)
+    var $msgP = $('<p>').html(msgObj.text).appendTo($msgDiv)
+    // Add Time Later...
+    
+    var $avaColDiv = $('<div>').addClass("col-md-2 col-xs-2 avatar")
+    // Get Personal Avatar
+    var $avaImg = $('<img>').attr('src','http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg').addClass('img-responsive').appendTo($avaColDiv)
+    
+    // Apply Directional Classes
+    if (msgObj.direction == "sent") {
+        $rowDiv.addClass('base_sent')
+        $msgDiv.addClass('msg_sent')
+        $msgColDiv.appendTo($rowDiv)
+        $avaColDiv.appendTo($rowDiv)
+    }
+    else {
+        $rowDiv.addClass('base_receive')
+        $msgDiv.addClass('msg_receive')
+        $avaColDiv.appendTo($rowDiv)
+        $msgColDiv.appendTo($rowDiv)
+    }
+    
+    // Return JQuery Object
+    return $rowDiv
+
+}
 
 
 function displayMessages() {
@@ -90,7 +135,8 @@ function displayMessages() {
     //$('#messages').empty()
     for (idx in messages){
         var match = false
-        $('li').each(function(){
+        //$('li').each(function(){
+        $('.msg_container').each(function(){
             if ($(this).data('idx') == idx ) {
                 match = true
             }
@@ -101,7 +147,9 @@ function displayMessages() {
 
         //Adding New Entry
         console.log('[socket.io] Adding New Message')
-        var $msg = $('<li>').attr('data-idx',idx).text(messages[idx].text)
+        //var $msg = $('<li>').attr('data-idx',idx).text(messages[idx].text)
+        var msgObj = messages[idx]
+        var $msg = buildMessage(msgObj,idx)
         $('#messages').append($msg)
     
     }

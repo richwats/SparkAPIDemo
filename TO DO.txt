@@ -64,6 +64,7 @@ ISSUES
 1/2/17
     - Login Forms
         - Add Title / Select
+            - DONE
         
     - Socket.IO
         - Use Rooms to isolate individual chats...
@@ -72,11 +73,15 @@ ISSUES
         - Modify display
             - Direction sent vs received
             - Get Person Avatar / Details
+            - Get Time
+            
         - Show Connected Status
             - Disable Form on Disconnected
+            
         - Load X Previous Messages?
             - Optional?
             - Filter out Form Posts?
+            
         - Post Connect Status to Spark Room
             - DONE
         

@@ -68,7 +68,6 @@ class SparkAPI(object):
     
     sparkVersion = None
     _sparkUrl = None
-    sparkBaseURL = "%s%s/ " % (str(_sparkUrl),str(sparkVersion))
         
     ## Functions ##
     def __init__(self, logger):
@@ -86,6 +85,8 @@ class SparkAPI(object):
             self._webhookTargetURL = os.environ.get('WEBHOOK_URL')
             self.sparkVersion = os.environ.get('SPARK_API_VERSION')
             self._sparkUrl = os.environ.get('SPARK_API_URL')
+            
+            self.sparkBaseURL = "%s/%s/ " % (str(self._sparkUrl),str(self.sparkVersion))
         except Exception as e:
             self.logger.error('[SparkAPI] Initialisation Error: %s' % str(e))
             return
@@ -134,7 +135,7 @@ class SparkAPI(object):
     
     def _setupURL(self):
         self.serverURL = furl(self.sparkBaseURL)
-        self.serverURL.path = self.sparkVersion
+        #self.serverURL.path = self.sparkVersion
         self.logger.info('[SparkAPI] Base Spark URL: %s' % str(self.serverURL))
         return 
     
