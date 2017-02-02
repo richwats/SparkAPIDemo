@@ -116,7 +116,7 @@ function buildMessage(msgObj,idx) {
         imgSrc = 'http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg'
     }
     
-    console.log('Avatar Link:'+msgObj.avatar)
+    if (debug) console.log('[buildMessage] Avatar Link:'+msgObj.avatar)
     
     var $avaImg = $('<img>').attr('src',imgSrc).addClass('img-responsive').appendTo($avaColDiv)
     
@@ -140,8 +140,11 @@ function buildMessage(msgObj,idx) {
 }
 
 
-function displayMessages() {
-    console.log('[socket.io] Displaying Messages')
+function displayMessages(msg) {
+    if (msg == null) {
+        return
+    }
+    if (debug) console.log('[socket.io] Displaying Messages')
     //$('#messages').empty()
     for (idx in messages){
         //console.log('[socket.io] Checking Idx:'+idx)
@@ -158,7 +161,7 @@ function displayMessages() {
         }
 
         //Adding New Entry
-        console.log('[socket.io] Adding New Message Idx:'+idx)
+        if (debug) console.log('[socket.io] Adding New Message Idx:'+idx)
         
         //var $msg = $('<li>').attr('data-idx',idx).text(messages[idx].text)
         var msgObj = messages[idx]
@@ -170,12 +173,14 @@ function displayMessages() {
 
 function sendMessage() {
     msg = $('#msgText').val()
-    console.log('[socket.io] Sending Message: '+msg)
+    if (debug) console.log('[socket.io] Sending Message: '+msg)
     // Emit Message
     socket.emit('message', msg);
     messages.push({'direction':'sent','text':msg})
     // Reset Input
     $('#msgText').val('')
+    // Display Message
+    displayMessages(true)
 }
 
 function openChatWS() {
@@ -183,11 +188,11 @@ function openChatWS() {
     socket = io('/sparkchat');
     
     socket.on('message', function(msg){
-        console.log('[socket.io] Message: '+msg)
+        if (debug) console.log('[socket.io] Message: '+msg)
         //$('#messages').append($('<li>').text(msg));
         messages.push({'direction':'received','text':msg.text, 'avatar':msg.avatar})
-        console.log(messages)
-        displayMessages()
+        if (debug) console.log(messages)
+        displayMessages(msg)
     });
     
     socket.on('connect', function(){

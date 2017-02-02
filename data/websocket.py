@@ -3,10 +3,13 @@ from flask import current_app,session,request
 
 from spark import SparkAPI, SparkMessage
 
+import os
+
 class SparkChatNamespace(Namespace):
     
     sparkAPI = None
     sparkSpace = None
+    avatarURL = os.environ.get('SPARK_INT_AVATAR_URL')
     
     def on_connect(self):
         if 'email' not in session.keys():
@@ -37,7 +40,7 @@ class SparkChatNamespace(Namespace):
             current_app.logger.debug('[SparkChatNamespace.message] Message Response: %s' % str(response))
             
             emit('alert', {'message':'Client Connected'})
-            response = {'text':'Welcome to the live chat.  Please type your question below.'}
+            response = {'text':'Welcome to the live chat.  Please type your question below.','avatar': self.avatarURL}
             emit('message', response)
         return
 
