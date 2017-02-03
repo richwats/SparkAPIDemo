@@ -103,8 +103,25 @@ function buildMessage(msgObj,idx) {
     var $rowDiv = $('<div>').addClass('row msg_container').data('idx',idx)
     var $msgColDiv = $('<div>').addClass('col-md-10 col-xs-10')
     var $msgDiv = $('<div>').addClass('messages').appendTo($msgColDiv)
-    var $msgP = $('<p>').html(msgObj.text).appendTo($msgDiv)
-    // Add Time Later...
+    
+    // DisplayName
+    var $fromP = $('<p>').addClass('msg_displayName').text(msgObj.displayName).appendTo($msgDiv)
+    
+    // Message
+    if (msgObj.html != null) {
+        msgData = msgObj.html
+    }
+    else if (msgObj.markdown != null) {
+        msgData = msgObj.markdown
+    }
+    else {
+        msgData = msgObj.text
+    }
+    var $msgP = $('<p>').html(msgData).appendTo($msgDiv)
+    
+    // Time
+    var date = new Date(msgObj.created)
+    var $time = $('<time>').attr('datetime', msgObj.created).text(date.toLocaleString({'timeZoneName':'long'})).appendTo($msgDiv)
     
     var $avaColDiv = $('<div>').addClass("col-md-2 col-xs-2 avatar")
     // Get Personal Avatar
@@ -188,9 +205,20 @@ function openChatWS() {
     socket = io('/sparkchat');
     
     socket.on('message', function(msg){
-        if (debug) console.log('[socket.io] Message: '+msg)
+        if (debug) console.log('[socket.io] Received Message:')
+        if (debug) console.log(msg)
         //$('#messages').append($('<li>').text(msg));
-        messages.push({'direction':'received','text':msg.text, 'avatar':msg.avatar})
+        messages.push(
+                        {
+                        'direction':'received',
+                        'displayName': msg.displayName,
+                        'text':msg.text,
+                        'markdown': msg.markdown,
+                        'html': msg.html,
+                        'created': msg.created,
+                        'avatar':msg.avatar
+                        }
+                      )
         if (debug) console.log(messages)
         displayMessages(msg)
     });

@@ -135,8 +135,12 @@ def web_hook():
     
     
     message = {
-        'text': '(%s) %s' % (str(response['json']['personEmail']),str(response['json']['text'])),
-        'avatar': str(peopleObj['json']['avatar'])
+        'displayName': str(peopleObj['json']['displayName']),
+        'text': str(response['json']['text']),
+        'markdown': str(response['json']['markdown']) if 'markdown' in response['json'].keys() else None,
+        'html': str(response['json']['html']) if 'html' in response['json'].keys() else None,
+        'avatar': str(peopleObj['json']['avatar']),
+        'created': str(response['json']['created']),
         }
 
     #response = {'text':'Message Received from Spark.'}

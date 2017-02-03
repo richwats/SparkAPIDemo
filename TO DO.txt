@@ -1,5 +1,8 @@
 ### SPARK/TROPO API DEMO WEB SITE ###
 
+VIEW
+bash -c "clear && docker exec -it SparkWeb sh
+
 BUILD COMMAND
 docker build SparkAPI -t sparkweb
 

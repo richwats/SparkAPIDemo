@@ -107,6 +107,11 @@
     float: right;
 }
 
+.msg_displayName {
+  font-size: 11px;
+  color: #ccc;
+}
+
 
 
 /*.msg_container_base::-webkit-scrollbar-track

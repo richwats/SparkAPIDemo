@@ -4,6 +4,7 @@ from flask import current_app,session,request
 from spark import SparkAPI, SparkMessage
 
 import os
+import datetime
 
 class SparkChatNamespace(Namespace):
     
@@ -40,7 +41,13 @@ class SparkChatNamespace(Namespace):
             current_app.logger.debug('[SparkChatNamespace.message] Message Response: %s' % str(response))
             
             emit('alert', {'message':'Client Connected'})
-            response = {'text':'Welcome to the live chat.  Please type your question below.','avatar': self.avatarURL}
+            response = {
+                #'text':'Welcome to the live chat.  Please type your question below.',
+                'html':'Welcome to the live chat. Please type your question below.',
+                'displayName': 'Spark Chat',
+                'created': str(datetime.datetime.now(tz=datetime.timezone.utc)),
+                'avatar': self.avatarURL
+                }
             emit('message', response)
         return
 
