@@ -7,11 +7,15 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">Chat Window</h4>
         </div>
-        <div class="modal-body" style="height: 300px; overflow-y: auto;">
+        <div class="modal-body center-block" id="msgLoadingBody">
+          <h5>Please wait..</h5>
+          <img src="{{url_for('static', filename='images/ccw_preloader.gif')}}"/>
+        </div>
+        <div class="modal-body"msgInputBody id="msgDisplayBody" style="height: 300px; overflow-y: auto;">
           <ul id="messages">
           </ul>
         </div>
-        <div class="modal-body" >
+        <div class="modal-body" id="msgInputBody" >
           <form id="sendMessageForm" disabled class="form">
             <div class="form-group">
               <label for="msgText">Message</label>
@@ -21,6 +25,21 @@
           <button class="btn btn-primary btn-block" onclick="sendMessage()">Send</button>
         </div>
         <div class="modal-footer">
+          <div class="pull-left" id="connectStatusDiv">
+            <a class="btn btn-danger disabled" href=#>
+              <strong>Status:</strong>Disconnected
+            </a>
+          </div>
           <button type="button" class="btn btn-default" onclick="clearSession()">Clear Session</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
+        
+        <script>
+          // Set Display Name 
+          var displayName = "{{session.firstName}} {{session.lastName}}"
+          
+          // Setup Display
+          $('#msgDisplayBody').hide()
+          $('#msgInputBody').hide()
+          
+        </script>

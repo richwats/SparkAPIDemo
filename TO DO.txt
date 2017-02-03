@@ -1,5 +1,10 @@
 ### SPARK/TROPO API DEMO WEB SITE ###
 
+GIT
+git commit -a -m ""
+git push -u origin master
+
+
 VIEW
 bash -c "clear && docker exec -it SparkWeb sh
 
@@ -77,13 +82,18 @@ ISSUES
             - Direction sent vs received
             - Get Person Avatar / Details
             - Get Time
+            - DONE
+            
+            - Use Markdown Editor / Renderer?
             
         - Show Connected Status
             - Disable Form on Disconnected
             
         - Load X Previous Messages?
             - Optional?
+                - Show History?
             - Filter out Form Posts?
+                - DONE
             
         - Post Connect Status to Spark Room
             - DONE
@@ -103,3 +113,4 @@ ISSUES
                 
     
     
+    - BROADCAST ?

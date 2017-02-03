@@ -3,8 +3,37 @@
 // WebSocket IO //
 
 var socket
+
+//if (sessionStorage.messages) {
+//    //console.log(sessionStorage.messages)
+//    var messages = []
+//    for (idx in sessionStorage.messages){
+//       console.log(sessionStorage.messages[idx])
+//       messages.push(messages[idx])
+//    }
+//   
+//}
+//else {
+//    var messages = []
+//}
+
 var messages = []
 
+if (sessionStorage.messages) {
+    var messages = JSON.parse(sessionStorage.messages)
+    //console.log(messages)
+}
+
+
+function saveMessages() {
+    sessionStorage.messages = JSON.stringify(messages)
+}
+
+
+$(document).ready(function(){
+    if (debug) { console.log('[chat] Enabling Chat Button'); }
+    $('#chatButton').removeAttr('disabled').removeClass('btn-default').addClass('btn-primary')
+    })
 
 //function openChatWindow() {
 //    
@@ -100,7 +129,7 @@ function buildMessage(msgObj,idx) {
     </div>
     */
     
-    var $rowDiv = $('<div>').addClass('row msg_container').data('idx',idx)
+    var $rowDiv = $('<div>').addClass('row msg_container').data('idx',idx).attr('id','msg-'+idx)
     var $msgColDiv = $('<div>').addClass('col-md-10 col-xs-10')
     var $msgDiv = $('<div>').addClass('messages').appendTo($msgColDiv)
     
@@ -121,7 +150,7 @@ function buildMessage(msgObj,idx) {
     
     // Time
     var date = new Date(msgObj.created)
-    var $time = $('<time>').attr('datetime', msgObj.created).text(date.toLocaleString({'timeZoneName':'long'})).appendTo($msgDiv)
+    var $time = $('<time>').attr('datetime', msgObj.created).text(date.toLocaleString()).appendTo($msgDiv)
     
     var $avaColDiv = $('<div>').addClass("col-md-2 col-xs-2 avatar")
     // Get Personal Avatar
@@ -140,7 +169,9 @@ function buildMessage(msgObj,idx) {
     // Apply Directional Classes
     if (msgObj.direction == "sent") {
         $rowDiv.addClass('base_sent')
-        $msgDiv.addClass('msg_sent')
+        $msgDiv.addClass('msg_sent').addClass('text-right')
+        $fromP.addClass('text-right')
+        $time.addClass('text-right')
         $msgColDiv.appendTo($rowDiv)
         $avaColDiv.appendTo($rowDiv)
     }
@@ -184,6 +215,10 @@ function displayMessages(msg) {
         var msgObj = messages[idx]
         var $msg = buildMessage(msgObj,idx)
         $('#messages').append($msg)
+        
+        //ScrollIntoView
+        var elem = document.getElementById('msg-'+idx)
+        elem.scrollIntoView()
     
     }
 }
@@ -193,7 +228,21 @@ function sendMessage() {
     if (debug) console.log('[socket.io] Sending Message: '+msg)
     // Emit Message
     socket.emit('message', msg);
-    messages.push({'direction':'sent','text':msg})
+    
+    var date = new Date()
+    
+    messages.push(
+                  {
+                    'direction':'sent',
+                    'displayName': displayName,
+                    'text':msg,
+                    'created': date.toLocaleString()
+                    }
+                  )
+    
+    // Save Messages
+    saveMessages()
+    
     // Reset Input
     $('#msgText').val('')
     // Display Message
@@ -219,12 +268,26 @@ function openChatWS() {
                         'avatar':msg.avatar
                         }
                       )
+        
+        // Save Messages
+        saveMessages()
+        
         if (debug) console.log(messages)
         displayMessages(msg)
     });
     
     socket.on('connect', function(){
         console.log('[socket.io] Connect Event')
+        
+        //Display Modal
+        $('#msgLoadingBody').hide()
+        $('#msgDisplayBody').show()
+        $('#msgInputBody').show()
+        
+        // Show Status
+        $('#connectStatusDiv').empty();
+        var $alertBtn = $('<a>').addClass('btn btn-success disabled').html('<strong>Status:</strong> Connected').appendTo($('#connectStatusDiv'))
+        
         });
     
     socket.on('alert', function(data){
@@ -233,6 +296,16 @@ function openChatWS() {
     
     socket.on('disconnect', function(){
         console.log('[socket.io] Disconnect Event')
+        
+        //Hide Modal
+        $('#msgLoadingBody').show()
+        $('#msgDisplayBody').hide()
+        $('#msgInputBody').hide()
+        
+        // Show Status
+        $('#connectStatusDiv').empty();
+        var $alertDiv = $('<div>').addClass('alert alert-danger').html('<strong>Status:</strong> Disconnected').appendTo($('#connectStatusDiv'))
+        
         });
     
     
